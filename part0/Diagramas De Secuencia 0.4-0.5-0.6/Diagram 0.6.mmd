@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: El usuario escribe la nota y hace clic en 'Save' 
+
+    Note right of browser: El código JS (spa.js) captura el evento 'submit' y ejecuta e.preventDefault() 
+    Note right of browser: El JS añade la nota a la lista local (notes.push) y la redibuja en el DOM 
+    
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa 
+    activate server
+    Note left of server: El servidor recibe el JSON, crea el objeto y lo guarda en memoria 
+    server-->>browser: HTTP Status Code 201 Created 
+    deactivate server
