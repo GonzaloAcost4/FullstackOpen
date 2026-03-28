@@ -6,4 +6,4 @@ const Header = (props) => { // los props se pasan como argumento a la función h
   )
 }
 
-export default Header
+export default Header // exportamos el componente para usarlo en el componente padre (App.jsx)
