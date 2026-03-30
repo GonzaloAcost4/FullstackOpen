@@ -1,7 +1,7 @@
-const Header = (props) => { // los props se pasan como argumento a la función hija desde la función padre (App.jsx)
+const Header = ({ course }) => { // los props se pasan como argumento a la función hija desde la función padre (App.jsx)
   return (
     <header className="header">
-      <h1>{props.course}</h1>
+      <h1>{course}</h1>
     </header>
   )
 }

@@ -21,11 +21,14 @@ const App = () => {
     ]
   }
 
+  // Destructuring del objeto course
+  const { name, parts } = course
+
   return ( // los props se pasan como atributos a los componentes hijos (Header, Content y Total) desde la función padre (App.jsx)
     <div>
-      <Header course={course.name} /> 
-      <Content parts={course.parts} />    
-      <Total parts={course.parts} />   
+      <Header course={name} /> 
+      <Content parts={parts} />    
+      <Total parts={parts} />   
     </div>
   ) 
 }
