@@ -1,6 +1,6 @@
 const Total = (props) => { // los props se pasan como argumento a la función hija desde la función padre (App.jsx)
     return (
-        <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
+        <p>Total exercises: {props.part1.exercises + props.part2.exercises + props.part3.exercises}</p>
     )
 }
 
