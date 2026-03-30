@@ -3,9 +3,9 @@ import Parts from './Parts' // importamos el componente Parts.jsx para usarlo de
 const Content = (props) => { // los props se pasan como argumento a la función hija desde la función padre (App.jsx)
     return (
         <div>
-            <Parts part={props.part1} />
-            <Parts part={props.part2} />
-            <Parts part={props.part3} />
+            <Parts part={props.parts[0]} />
+            <Parts part={props.parts[1]} />
+            <Parts part={props.parts[2]} />
         </div>
     )
 }
