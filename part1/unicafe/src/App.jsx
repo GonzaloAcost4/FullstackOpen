@@ -11,14 +11,14 @@ const App = () => {
   const [bad, setBad] = useState(0)
 
   return (
-    <div>
+    <>
       <Header1 text = 'give feedback' />
       <Button text="good" handleClick={() => setGood(good + 1)} />
       <Button text="neutral" handleClick={() => setNeutral(neutral + 1)} />
       <Button text="bad" handleClick={() => setBad(bad + 1)} />
       <Header2 text = 'statistics' />
       <Statistics good={good} neutral={neutral} bad={bad} />
-    </div>
+    </>
   )
 }
 
