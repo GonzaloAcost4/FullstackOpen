@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Button from './Components/Button'
 import Header1 from './Components/Header1'
 import Header2 from './Components/Header2'
-import Counter from './Components/counter'
 import Statistics from './Components/statistics'
 
 const App = () => {
@@ -18,9 +17,6 @@ const App = () => {
       <Button text="neutral" handleClick={() => setNeutral(neutral + 1)} />
       <Button text="bad" handleClick={() => setBad(bad + 1)} />
       <Header2 text = 'statistics' />
-      <Counter text="good" counter = {good} />
-      <Counter text="neutral" counter = {neutral} />
-      <Counter text="bad" counter = {bad} />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
