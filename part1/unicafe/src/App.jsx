@@ -3,6 +3,7 @@ import Button from './Components/Button'
 import Header1 from './Components/Header1'
 import Header2 from './Components/Header2'
 import Counter from './Components/counter'
+import Statistics from './Components/statistics'
 
 const App = () => {
   // guarda los clics de cada botón en su propio estado
@@ -20,6 +21,7 @@ const App = () => {
       <Counter text="good" counter = {good} />
       <Counter text="neutral" counter = {neutral} />
       <Counter text="bad" counter = {bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
