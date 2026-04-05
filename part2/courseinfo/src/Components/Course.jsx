@@ -1,5 +1,6 @@
 import Content from './Content' // importamos el componente Content.jsx para usarlo dentro del componente Course.jsx
 import Header from './Header' // importamos el componente Header.jsx para usarlo dentro del componente Course.jsx
+import Total from './Total' // importamos el componente Total.jsx para usarlo dentro del componente Course.jsx
 import PropTypes from 'prop-types' // importamos PropTypes para validar los tipos de props que se pasan a los componentes
 
 const Course = ({ course }) =>  {
@@ -7,6 +8,7 @@ const Course = ({ course }) =>  {
         <div> 
             <Header course={course.name} />
             <Content parts={course.parts} />
+            <Total parts={course.parts} />
         </div>
     )
 }
