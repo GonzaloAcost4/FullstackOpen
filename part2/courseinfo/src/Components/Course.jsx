@@ -6,9 +6,13 @@ import PropTypes from 'prop-types' // importamos PropTypes para validar los tipo
 const Course = ({ course }) =>  {
     return ( 
         <div> 
-            <Header course={course.name} />
-            <Content parts={course.parts} />
-            <Total parts={course.parts} />
+            {course.map(course => (
+                <div key={course.id}>
+                    <Header course={course.name} />
+                    <Content parts={course.parts} />
+                    <Total parts={course.parts} />
+                </div>
+            ))}
         </div>
     )
 }
@@ -24,4 +28,4 @@ Course.propTypes = {
     }).isRequired
 }
 
-export default Course 
+export default Course
