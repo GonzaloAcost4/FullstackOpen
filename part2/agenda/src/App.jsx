@@ -28,7 +28,15 @@ const App = () => {
     if (existingPerson) { //Persona con el mismo nombre ya existe en el estado
       if (existingPerson.number !== newNumber) { //El número es diferente, se actualiza el número de la persona existente
         updatePerson(existingPerson.id, newName, newNumber)
-        setSuccessMessage(`Updated ${newName}'s number`)
+          .then(() => {
+            setSuccessMessage(`Updated ${newName}'s number`)
+          })
+          .catch(
+            error => { 
+              alert(`Information of ${newName} has already been removed from server`)
+              console.log(error)
+            }
+          )
       } else {
         alert(`${newName} is already added to phonebook with the same number`) //El número es el mismo, se muestra una alerta y no se hace nada
       }
@@ -68,7 +76,7 @@ const App = () => {
 
   const updatePerson = (id, name, number) => {
     if (window.confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
-      personService
+      return personService
         .update(id, { ...persons.find(p => p.id === id), number })
         .then(() => {
           personService
