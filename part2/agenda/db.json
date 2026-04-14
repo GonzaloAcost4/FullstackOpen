@@ -24,11 +24,6 @@
       "name": "Ruben Gundersen",
       "number": "40-23-6423122",
       "id": "Jpv_mnMsoVs"
-    },
-    {
-      "name": "Tomás Arbillaga ",
-      "number": "020-78910",
-      "id": "M6FWnV--XYk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

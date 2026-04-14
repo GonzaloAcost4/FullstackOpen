@@ -1,11 +1,11 @@
 import Person from './Person'
 import propTypes from 'prop-types'
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, onDelete }) => {
   return (
     <ul>
       {persons.map(person => (
-        <Person key={person.id} person={person} />
+        <Person key={person.id} person={person} onDelete={onDelete} />
       ))}
     </ul>
   )
@@ -18,7 +18,8 @@ Persons.propTypes = {
         number: propTypes.string.isRequired,
         id: propTypes.number.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  onDelete: propTypes.func.isRequired
 }
 
 export default Persons
