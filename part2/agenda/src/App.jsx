@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './Components.jsx/Filter'
 import PersonForm from './Components.jsx/PersonForm'
 import Persons from './Components.jsx/Persons'
-import axios from 'axios'
+import personService from './services/Person'
 
 
 const App = () => {
@@ -11,28 +11,29 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
 
-  useEffect(() => { // El hook useEffect se usa para obtener los datos de la lista de personas desde un servidor.
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
-  }, []) // El array vacío asegura que el efecto se ejecute solo una vez, después del primer renderizado.  
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (persons.some(p => p.name.toLowerCase() === newName.toLowerCase())) {
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
-    const personObject = {
+    const PersonObject = {
       name: newName,
-      number: newNumber,
-      id: persons.length + 1,
+      number: newNumber
     }
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+
+    personService
+      .create(PersonObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const filteredPersons = persons.filter(person =>
