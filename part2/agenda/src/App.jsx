@@ -4,12 +4,12 @@ import PersonForm from './Components.jsx/PersonForm'
 import Persons from './Components.jsx/Persons'
 import personService from './services/Person'
 
-
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
 
   useEffect(() => {
@@ -22,12 +22,13 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    
+  
     const existingPerson = persons.find(p => p.name === newName) 
     
     if (existingPerson) { //Persona con el mismo nombre ya existe en el estado
       if (existingPerson.number !== newNumber) { //El número es diferente, se actualiza el número de la persona existente
         updatePerson(existingPerson.id, newName, newNumber)
+        setSuccessMessage(`Updated ${newName}'s number`)
       } else {
         alert(`${newName} is already added to phonebook with the same number`) //El número es el mismo, se muestra una alerta y no se hace nada
       }
@@ -43,6 +44,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setSuccessMessage(`Added ${newName}`)
         })
     }
     
@@ -85,6 +87,17 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <p style={{ color: 'green', 
+        fontWeight: 'bold', 
+        backgroundColor: 'lightgray',
+        fontSize: '16px', 
+        borderStyle: 'solid',
+        borderRadius: '5px',
+        padding: '10px',
+        marginBottom: '20px',
+        marginTop: '10px',
+        width: '300px',}}
+        >{successMessage}</p>
       <Filter filter={filter} setFilter={setFilter} />
 
       <h2>Add a new</h2>
