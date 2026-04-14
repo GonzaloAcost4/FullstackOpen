@@ -22,24 +22,52 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const PersonObject = {
-      name: newName,
-      number: newNumber
-    }
+    
+    const existingPerson = persons.find(p => p.name === newName) 
+    
+    if (existingPerson) { //Persona con el mismo nombre ya existe en el estado
+      if (existingPerson.number !== newNumber) { //El número es diferente, se actualiza el número de la persona existente
+        updatePerson(existingPerson.id, newName, newNumber)
+      } else {
+        alert(`${newName} is already added to phonebook with the same number`) //El número es el mismo, se muestra una alerta y no se hace nada
+      }
+    } else {
+      const PersonObject = {
+        name: newName,
+        number: newNumber
+      }
 
-    personService
-      .create(PersonObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')
-      })
+      personService
+        .create(PersonObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+    }
+    
+    setNewName('')
+    setNewNumber('')
   }
 
   const removePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
       personService
         .remove(id)
+        .then(() => {
+          personService
+            .getAll()
+            .then(initialPersons => {
+              setPersons(initialPersons)
+            })
+        })
+    }
+  }
+
+  const updatePerson = (id, name, number) => {
+    if (window.confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
+      personService
+        .update(id, { ...persons.find(p => p.id === id), number })
         .then(() => {
           personService
             .getAll()

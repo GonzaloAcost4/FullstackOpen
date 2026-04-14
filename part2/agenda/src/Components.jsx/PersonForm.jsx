@@ -1,5 +1,5 @@
 import propTypes from 'prop-types'
-const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, addPerson }) => {
+const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, addPerson}) => {
   return (
     <form onSubmit={addPerson}>
       <div>
@@ -17,7 +17,7 @@ const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, addPerson })
         />
       </div>
       <div>
-        <button type="submit">add</button>
+        <button type="submit">add </button>
       </div>
     </form>
   )
