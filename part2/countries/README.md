@@ -1,16 +1,42 @@
-# React + Vite
+Country Finder
+A React application developed for Full Stack Open (Part 2) that retrieves country data and real-time weather information using external APIs.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features
+Live Search: Filters countries as you type.
 
-Currently, two official plugins are available:
+Smart Views: \* Shows a list with "Show" buttons if there are 2–10 matches.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Automatically displays full details if only one country remains.
 
-## React Compiler
+Prompts for a more specific filter if over 10 results are found.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Country Info: Displays capital, area, languages, and the national flag.
 
-## Expanding the ESLint configuration
+Weather Integration: Fetches and shows current temperature, wind speed, and weather icons for the country's capital.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Project Structure
+Plaintext
+countries/
+├── src/
+│ ├── components/
+│ │ └── CountriesList.jsx # Country list component
+│ │ └── CountryDetail.jsx # Country detail component
+│ │ └── weather.jsx # Weather display component
+│ ├── services/
+│ │ ├── countries.js # Country API service
+│ │ └── weather.js # OpenWeatherMap API service
+│ ├── App.jsx # Main logic and state
+│ └── main.jsx # Entry point
+├── .env # API Keys
+└── package.json # Dependencies
+Setup
+Get an API key from OpenWeatherMap.
+
+Create a .env file in the root:
+VITE_OPENWEATHER_API_KEY=your_key_here
+
+Install and run:
+
+Bash
+npm install
+npm run dev
