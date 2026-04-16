@@ -25,6 +25,9 @@ A React application developed for **Full Stack Open (Part 2)** that retrieves co
 - **countries.js**: Handles API calls to fetch country data
 - **weather.js**: Manages OpenWeatherMap API integration for weather information
 
+## Core Files
+
+
 ### Core Files
 
 - **App.jsx**: Main component that manages application state and logic, handles search filtering and view transitions
