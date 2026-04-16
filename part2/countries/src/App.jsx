@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import countryService from './services/countries'
+import weatherService from './services/weather'
+import Weather from './components/Weather'
 
-const CountryDetail = ({ country }) => {
+const CountryDetail = ({ country, weather }) => {
   if (!country) return null
   
   return (
@@ -17,11 +19,11 @@ const CountryDetail = ({ country }) => {
       flex: 1
     }}>
       <h2 style={{ margin: '5px 0' }}>{country.name.common}</h2>
-      <p style={{ margin: '3px 0' }}>capital {country.capital}</p>
-      <p style={{ margin: '3px 0' }}>area {country.area}</p>
+      <p style={{ margin: '3px 0' }}>capital {country.capital?.[0] || 'N/A'}</p> {/* Mostrar "N/A" si el área no está disponible para manejar el error que no se mostraban países sin registro de capitales*/}
+      <p style={{ margin: '3px 0' }}>area {country.area}</p> 
       <h3 style={{ margin: '5px 0' }}>languages:</h3>
       <ul style={{ paddingLeft: '0', margin: '5px 0' }}>
-        {Object.values(country.languages).map(language => (
+        {country.languages && Object.values(country.languages).map(language => (
           <li style={{ listStyleType: 'none', margin: '2px 0' }} key={language}>
             {language} 
           </li>
@@ -32,24 +34,26 @@ const CountryDetail = ({ country }) => {
         alt={`Flag of ${country.name.common}`}
         style={{ maxWidth: '200px', marginTop: '10px' }}
       />
+      {country.capital && <Weather weather={weather} capital={country.capital[0]} />}
     </div>
   )
 }
 
 CountryDetail.propTypes = {
-  country: PropTypes.object
+  country: PropTypes.object,
+  weather: PropTypes.object
 }
 
 const CountriesList = ({ countries, onSelectCountry, selectedCountry }) => { 
   const handleCountryClick = (country) => {
-    if (selectedCountry?.name.common === country.name.common) {
+    if (selectedCountry?.name.common === country.name.common) { // Si el país ya está seleccionado, deseleccionarlo
       onSelectCountry(null)
     } else {
-      onSelectCountry(country)
+      onSelectCountry(country) // Seleccionar el país clickeado
     }
   }
 
-  if (countries.length > 1) {
+  if (countries.length > 1) { // Si hay más de un país, mostrar la lista con botones
     return (
       <div>
         {countries.map(country => (
@@ -64,7 +68,7 @@ const CountriesList = ({ countries, onSelectCountry, selectedCountry }) => {
     )
   }
   
-  if (countries.length === 1) {
+  if (countries.length === 1) { // Si hay exactamente un país, mostrar su nombre sin botón
     return (
       <div style={{ padding: '10px 0' }}>
         <p style={{ margin: '0' }}>{countries[0].name.common}</p>
@@ -81,10 +85,12 @@ CountriesList.propTypes = {
   selectedCountry: PropTypes.object
 }
 
-const App = () => {
+const App = () => { 
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
   const [selectedCountry, setSelectedCountry] = useState(null)
+  const [weather, setWeather] = useState(null)
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     countryService
@@ -93,6 +99,42 @@ const App = () => {
         setCountries(allCountries)
       })
   }, [])
+
+  // Cuando hay un solo resultado, mostrar automáticamente su detalle
+  useEffect(() => {
+    if (countries.length > 0) {
+      const countriesToShow = countries.filter(country =>
+        country.name.common.toLowerCase().includes(filter.toLowerCase())
+      )
+      if (countriesToShow.length === 1) {
+        setSelectedCountry(countriesToShow[0])
+      } else {
+        setSelectedCountry(null)
+      }
+    }
+  }, [filter, countries])
+
+  // Obtener el clima cuando hay exactamente un país
+  useEffect(() => {
+    if (selectedCountry && selectedCountry.capital) {
+      weatherService
+        .getWeather(selectedCountry.capital[0])
+        .then(weatherData => {
+          setWeather(weatherData)
+          setNotification(null)
+        })
+        .catch(error => {
+          // Si es 404, la ciudad no existe en OpenWeatherMap, ignorar silenciosamente
+          if (error.response?.status === 404) {
+            setWeather(null)
+          } else {
+            // Para otros errores, mostrar notificación
+            setNotification('Error fetching weather data')
+            setWeather(null)
+          }
+        })
+    }
+  }, [selectedCountry])
 
   // filtra según lo que escribe el usuario
   const countriesToShow = countries.filter(country =>
@@ -129,10 +171,20 @@ const App = () => {
           }
         </div>
       </div>
-
-      {/* Country Details Box */}
+      {notification && (
+        <div style={{
+          padding: '10px',
+          marginBottom: '20px',
+          backgroundColor: '#ffcccc',
+          border: '1px solid red',
+          borderRadius: '5px',
+          color: 'red'
+        }}>
+          {notification}
+        </div>
+      )}
       {selectedCountry && (
-        <CountryDetail country={selectedCountry} />
+        <CountryDetail country={selectedCountry} weather={weather} />
       )}
     </div>
   )
